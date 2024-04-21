@@ -2,6 +2,7 @@ package com.deblock.jsondiff.matcher;
 
 import com.deblock.jsondiff.diff.JsonArrayDiff;
 import com.deblock.jsondiff.diff.JsonDiff;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
 import java.util.*;
@@ -49,6 +50,11 @@ public class LenientJsonArrayPartialMatcher implements PartialJsonMatcher<ArrayN
             receivedIndex.forEach(index -> diff.addExtraItem(index, receivedValues.get(index)));
         }
         return diff;
+    }
+
+    @Override
+    public boolean manage(JsonNode expected, JsonNode received) {
+        return expected.isArray() && received.isArray();
     }
 
     private double maxSimilarityRate(Map.Entry<Integer, Map<Integer, JsonDiff>> entry) {
